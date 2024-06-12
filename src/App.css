@@ -1,0 +1,7 @@
+thead th {
+  background-color: aqua;
+}
+td,
+tfoot th {
+  border: none;
+}

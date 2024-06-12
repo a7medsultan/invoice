@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "Date": "2024-05-01",
+    "DueDate": "2024-05-15",
+    "InvoiceNo": "INV-1001",
+    "Amount": "$250.00",
+    "Customer": "John Doe",
+    "status": "Paid",
+    "Action": "View"
+  },
+  {
+    "id": 2,
+    "Date": "2024-05-02",
+    "DueDate": "2024-05-16",
+    "InvoiceNo": "INV-1002",
+    "Amount": "$450.00",
+    "Customer": "Jane Smith",
+    "status": "Pending",
+    "Action": "View"
+  },
+  {
+    "id": 3,
+    "Date": "2024-05-03",
+    "DueDate": "2024-05-17",
+    "InvoiceNo": "INV-1003",
+    "Amount": "$300.00",
+    "Customer": "Acme Corp",
+    "status": "Overdue",
+    "Action": "View"
+  },
+  {
+    "id": 4,
+    "Date": "2024-05-04",
+    "DueDate": "2024-05-18",
+    "InvoiceNo": "INV-1004",
+    "Amount": "$600.00",
+    "Customer": "Foo Bar",
+    "status": "Paid",
+    "Action": "View"
+  },
+  {
+    "id": 5,
+    "Date": "2024-05-05",
+    "DueDate": "2024-05-19",
+    "InvoiceNo": "INV-1005",
+    "Amount": "$750.00",
+    "Customer": "Baz Quux",
+    "status": "Pending",
+    "Action": "View"
+  },
+  {
+    "id": 6,
+    "Date": "2024-05-06",
+    "DueDate": "2024-05-20",
+    "InvoiceNo": "INV-1006",
+    "Amount": "$900.00",
+    "Customer": "Widget Inc",
+    "status": "Overdue",
+    "Action": "View"
+  },
+  {
+    "id": 7,
+    "Date": "2024-05-07",
+    "DueDate": "2024-05-21",
+    "InvoiceNo": "INV-1007",
+    "Amount": "$200.00",
+    "Customer": "Alpha Beta",
+    "status": "Paid",
+    "Action": "View"
+  },
+  {
+    "id": 8,
+    "Date": "2024-05-08",
+    "DueDate": "2024-05-22",
+    "InvoiceNo": "INV-1008",
+    "Amount": "$350.00",
+    "Customer": "Gamma Delta",
+    "status": "Pending",
+    "Action": "View"
+  },
+  {
+    "id": 9,
+    "Date": "2024-05-09",
+    "DueDate": "2024-05-23",
+    "InvoiceNo": "INV-1009",
+    "Amount": "$500.00",
+    "Customer": "Theta Iota",
+    "status": "Overdue",
+    "Action": "View"
+  },
+  {
+    "id": 10,
+    "Date": "2024-05-10",
+    "DueDate": "2024-05-24",
+    "InvoiceNo": "INV-1010",
+    "Amount": "$650.00",
+    "Customer": "Kappa Lambda",
+    "status": "Paid",
+    "Action": "View"
+  }
+]
