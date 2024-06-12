@@ -1,0 +1,19 @@
+{
+  "appName": "فواتيري",
+  "dashboard": "لوحة المعلومات",
+  "invoices": "الفواتير",
+  "language": "اللغة",
+  "english": "الانجليزية",
+  "arabic": "العربية",
+  "date": "التاريخ",
+  "due Date": "تاريخ الاستحقاق",
+  "invoice No": "رقم الفاتورة",
+  "amount": "المبلغ",
+  "customer": "العميل ",
+  "status": "الحالة ",
+  "action": "الإجراء",
+  "new invoice": "فاتورة جديدة",
+  "edit": "تعديل",
+  "view": "معاينة",
+  "delete": "حذف"
+}

@@ -16,12 +16,13 @@ export default function InvForm({ setFormVisible }) {
     billedBy: "Mr, Hetsugaya Metsurogy",
     billedTo: "Mr, Sam Fisher",
     totalExTax: 0,
-    discount: 0,
     discountPercent: 0,
+    totalDiscount: 0,
     taxPercent: 5,
     totalTax: 0,
-    shipping: 50,
+    shipping: 0,
     otherCharges: 0,
+    adjustment: 0,
     grandTotal: 0,
     accHolder: "Ahmed Sultan",
     bankAccountNo: "83276394221124",
@@ -69,12 +70,14 @@ export default function InvForm({ setFormVisible }) {
         itemDesc: "",
         qty: 1,
         unitPrice: 0,
-        amountExTax: 0,
-        totalTax: 0,
+        total: 0,
+        discountPercent: 0,
+        discountValue: 0,
+        taxPercent: 0,
+        taxValue: 0,
         amount: 0,
       },
     ]);
-    console.log(invTableRows);
   }
 
   function numberToWords(num) {
@@ -163,6 +166,53 @@ export default function InvForm({ setFormVisible }) {
     return result.trim();
   }
 
+  function handleTotalChange(value, field) {
+    console.log("change");
+    let invoiceTemp = structuredClone(invoiceData);
+    switch (field) {
+      case "shipping":
+        invoiceTemp.shipping = value;
+        calculateTotals(invoiceTemp);
+        break;
+      case "otherCharges":
+        invoiceTemp.otherCharges = parseFloat(value);
+        calculateTotals(invoiceTemp);
+        break;
+
+      case "adjustment":
+        invoiceTemp.adjustment = parseFloat(value);
+        calculateTotals(invoiceTemp);
+        break;
+
+      default:
+        console.error(`Unknown field: ${field}`);
+        break;
+    }
+  }
+
+  function calculateTotals(invoiceTemp) {
+    let total = parseFloat(invoiceTemp.total);
+    let totalDiscount = parseFloat(invoiceTemp.totalDiscount);
+    let totalTax = parseFloat(invoiceTemp.totalTax);
+    let shipping = parseFloat(invoiceTemp.shipping);
+    let otherCharges = parseFloat(invoiceTemp.otherCharges);
+    let adjustment = parseFloat(invoiceTemp.adjustment);
+
+    const grandTotal = parseFloat(
+      total - totalDiscount + totalTax + shipping + otherCharges - adjustment
+    );
+
+    console.log(grandTotal);
+
+    setInvoiceData((prevData) => ({
+      ...prevData,
+      shipping: shipping.toFixed(2),
+      otherCharges: otherCharges.toFixed(2),
+      adjustment: adjustment.toFixed(2),
+      grandTotal: grandTotal.toFixed(2),
+    }));
+  }
+  // ===========================================================================
   return (
     <>
       <Form>
@@ -275,12 +325,13 @@ export default function InvForm({ setFormVisible }) {
                     </th>
                     <th>item desc</th>
                     <th className="text-center">qty</th>
-                    <th className="text-center">unit price ($) </th>
-                    <th className="text-center">amount ex tax ($)</th>
+                    <th className="text-center">unit price </th>
+                    <th className="text-center">total</th>
+                    <th className="text-center">disc %</th>
                     <th className="text-center">
-                      {invoiceData.taxPercent}% tax ($)
+                      {invoiceData.taxPercent}% tax
                     </th>
-                    <th className="text-center">amount ($)</th>
+                    <th className="text-center">amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -304,25 +355,25 @@ export default function InvForm({ setFormVisible }) {
                     <th colSpan="7"></th>
                   </tr>
                   <tr>
-                    <th rowSpan="7" colSpan="4">
+                    <th rowSpan="8" colSpan="5">
                       <PayDetails invoiceData={invoiceData} />
                     </th>
-                    <th className="text-center h5">Total Ex Tax</th>
+                    <th className="text-center h5">Total</th>
                     <th className="text-center h5"></th>
-                    <th className="text-center h5">{invoiceData.totalExTax}</th>
+                    <th className="text-center h5">{invoiceData.total}</th>
                   </tr>
                   <tr>
                     <th className="text-center h5 text-success">Discount</th>
                     <th className="text-center h5">
-                      <Form.Control
+                      {/* <Form.Control
                         className="text-center text-success"
                         plaintext
                         defaultValue={invoiceData.discountPercent}
                         placeholder="%"
-                      />
+                      /> */}
                     </th>
                     <th className="text-center h5 text-success">
-                      {invoiceData.discount}
+                      {invoiceData.totalDiscount}
                     </th>
                   </tr>
                   <tr>
@@ -341,6 +392,9 @@ export default function InvForm({ setFormVisible }) {
                         plaintext
                         defaultValue={invoiceData.shipping}
                         placeholder="0$"
+                        onChange={(e) =>
+                          handleTotalChange(e.target.value, "shipping")
+                        }
                       />
                     </th>
                   </tr>
@@ -353,6 +407,24 @@ export default function InvForm({ setFormVisible }) {
                         plaintext
                         defaultValue={invoiceData.otherCharges}
                         placeholder="0$"
+                        onChange={(e) =>
+                          handleTotalChange(e.target.value, "otherCharges")
+                        }
+                      />
+                    </th>
+                  </tr>
+                  <tr>
+                    <th className="text-center h5">Adjustment</th>
+                    <th className="text-center h5"></th>
+                    <th className="text-center h5">
+                      <Form.Control
+                        className="text-center"
+                        plaintext
+                        defaultValue={invoiceData.adjustment}
+                        placeholder="0.0$"
+                        onChange={(e) =>
+                          handleTotalChange(e.target.value, "adjustment")
+                        }
                       />
                     </th>
                   </tr>

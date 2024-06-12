@@ -25,6 +25,10 @@ export default function InvoiceItem({
         newComponent.unitPrice = parseFloat(value);
         newComponent = recalculate(newComponent);
         break;
+      case "discPercent":
+        newComponent.discountPercent = parseFloat(value);
+        newComponent = recalculate(newComponent);
+        break;
       default:
         console.error(`Unknown field: ${field}`);
         break;
@@ -42,39 +46,46 @@ export default function InvoiceItem({
   }
 
   function recalculate(component) {
-    let amountExTax = parseFloat(component.qty * component.unitPrice);
-    let taxValue = parseFloat(amountExTax * 0.05);
-    let amount = parseFloat(amountExTax + taxValue);
+    let total = parseFloat(component.qty * component.unitPrice);
+    let discountValue = parseFloat((total * component.discountPercent) / 100);
 
-    component.amountExTax = amountExTax.toFixed(2);
-    component.tax = taxValue.toFixed(2);
+    let taxValue = parseFloat(
+      ((total - discountValue) * invoiceData.taxPercent) / 100
+    );
+    console.log(taxValue);
+    let amount = parseFloat(total - discountValue + taxValue);
+
+    component.discountValue = discountValue.toFixed(2);
+    component.total = total.toFixed(2);
+    component.taxValue = taxValue.toFixed(2);
     component.amount = amount.toFixed(2);
     return component;
   }
 
   function calculateTotals(updatedRows) {
-    let totalExTax = 0;
+    let total = 0;
     let totalTax = 0;
+    let totalDiscount = 0;
 
     updatedRows.forEach((item) => {
-      totalExTax += parseFloat(item.amountExTax);
-      totalTax += parseFloat((item.amountExTax * invoiceData.taxPercent) / 100);
+      total += parseFloat(item.total);
+      totalDiscount += parseFloat(item.discountValue);
+      totalTax += parseFloat(item.taxValue);
     });
-
-    const discountValue = (totalExTax * invoiceData.discountPercent) / 100;
-    const grandTotal =
-      totalExTax +
-      totalTax +
-      invoiceData.shipping +
-      invoiceData.otherCharges -
-      discountValue;
+    const grandTotal = parseFloat(
+      total -
+        totalDiscount +
+        totalTax +
+        invoiceData.shipping +
+        invoiceData.otherCharges
+    );
 
     setInvoiceData((prevData) => ({
       ...prevData,
-      totalExTax: totalExTax.toFixed(2),
+      total: total.toFixed(2),
+      totalDiscount: totalDiscount.toFixed(2),
       totalTax: totalTax.toFixed(2),
       grandTotal: grandTotal.toFixed(2),
-      discount: discountValue.toFixed(2),
     }));
   }
 
@@ -115,7 +126,7 @@ export default function InvoiceItem({
           <Form.Control
             className="text-center"
             plaintext
-            defaultValue={invoiceItem.amountExTax}
+            defaultValue={invoiceItem.total}
             readOnly
           />
         </td>
@@ -123,7 +134,15 @@ export default function InvoiceItem({
           <Form.Control
             className="text-center"
             plaintext
-            defaultValue={invoiceItem.tax}
+            defaultValue={invoiceItem.discountPercent && 0}
+            onChange={(e) => handleChange(e.target.value, "discPercent")}
+          />
+        </td>
+        <td>
+          <Form.Control
+            className="text-center"
+            plaintext
+            defaultValue={invoiceItem.taxValue}
             readOnly
           />
         </td>
@@ -146,8 +165,11 @@ InvoiceItem.propTypes = {
     itemDesc: PropTypes.string,
     qty: PropTypes.number,
     unitPrice: PropTypes.number,
-    amountExTax: PropTypes.number,
-    tax: PropTypes.number,
+    total: PropTypes.number,
+    discountPercent: PropTypes.number,
+    discountValue: PropTypes.number,
+    taxPercent: PropTypes.number,
+    taxValue: PropTypes.number,
     amount: PropTypes.number,
   }).isRequired,
   invTableRows: PropTypes.array.isRequired,
@@ -155,6 +177,7 @@ InvoiceItem.propTypes = {
   invoiceData: PropTypes.shape({
     taxPercent: PropTypes.number,
     discountPercent: PropTypes.number,
+    totalExTax: PropTypes.number,
     shipping: PropTypes.number,
     otherCharges: PropTypes.number,
   }).isRequired,

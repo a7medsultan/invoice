@@ -6,7 +6,11 @@ import {
   FaEye,
   FaPenToSquare,
 } from "react-icons/fa6";
+
+import { useTranslation } from "react-i18next";
+
 export default function TRow({ invoice, index }) {
+  const { t, i18n } = useTranslation();
   const badgeBG = (() => {
     switch (invoice.status.toLowerCase()) {
       case "pending":
@@ -41,16 +45,16 @@ export default function TRow({ invoice, index }) {
             <Dropdown.Menu>
               <Dropdown.Item href="#/action-1">
                 <FaPenToSquare className="mx-2" />
-                edit
+                {t("edit")}
               </Dropdown.Item>
 
               <Dropdown.Item href="#/action-3">
                 <FaEye className="mx-2" />
-                view
+                {t("view")}
               </Dropdown.Item>
               <Dropdown.Item className="text-danger" href="#/action-2">
                 <FaTrashCan className="mx-2" />
-                delete
+                {t("delete")}
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

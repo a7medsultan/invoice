@@ -1,0 +1,19 @@
+{
+  "appName": "My Invoices",
+  "dashboard": "Dashboard",
+  "invoices": "Invoices",
+  "language": "Language",
+  "english": "English",
+  "arabic": "Arabic",
+  "date": "Date",
+  "due Date": "Due Date",
+  "invoice No": "Invoice No",
+  "amount": "Amount",
+  "customer": "Customer ",
+  "status": "Status ",
+  "action": "Action",
+  "new invoice": "New Invoice",
+  "edit": "Edit",
+  "view": "View",
+  "delete": "Delete"
+}

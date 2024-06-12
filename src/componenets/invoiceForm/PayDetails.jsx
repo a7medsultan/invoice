@@ -36,7 +36,7 @@ export default function PayDetails({ invoiceData }) {
         <Form.Control
           as="textarea"
           plaintext
-          rows={3}
+          rows={5}
           defaultValue={invoiceData.terms}
         />
       </div>

@@ -4,17 +4,20 @@ import Col from "react-bootstrap/Col";
 import { Table, Button } from "react-bootstrap";
 import invoices from "../data/invoices.json";
 import TRow from "./TRow";
+import { useTranslation } from "react-i18next";
 
 export default function InvTable({ setFormVisible }) {
+  const { t, i18n } = useTranslation();
+
   let theads = [
     "#",
-    "Date",
-    "Due Date",
-    "Invoice No",
-    "Amount",
-    "Customer",
-    "status",
-    "Action",
+    t("date"),
+    t("due Date"),
+    t("invoice No"),
+    t("amount"),
+    t("customer"),
+    t("status"),
+    t("action"),
   ];
   function handleNewInvoice(e) {
     e.preventDefault();
@@ -30,7 +33,7 @@ export default function InvTable({ setFormVisible }) {
             onClick={(e) => handleNewInvoice(e)}
             variant="primary my-3"
           >
-            new invoice
+            {t("new invoice")}
           </Button>
         </Col>
       </Row>
